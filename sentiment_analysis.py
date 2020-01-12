@@ -1,9 +1,10 @@
+import csv
 import json
 
 from monkeylearn import MonkeyLearn
 import pandas as pd
 import numpy as np
-from pandas import DataFrame
+
 
 
 def calculate_sentiment(data):
@@ -13,8 +14,8 @@ def calculate_sentiment(data):
     data = pd.read_json(data)
     result = []
 
-    for i in range(0, data.size):
-        res = extract_confidence(ml.classifiers.classify(model_id, [data[i]]))
+    for i in range(0, data.shape[0]):
+        res = extract_confidence(ml.classifiers.classify(model_id, [data['content'].values[i]]))
         result.append(np.asarray(res))
 
     result = np.asarray(result)
@@ -31,7 +32,7 @@ def extract_confidence(results):
 
 
 
-
-
-
-calculate_sentiment("")
+def example_usage(file='./data/filtered_2.csv'):
+    df = pd.read_csv(file)
+    json_data=df.to_json(orient='records')
+    calculate_sentiment(json_data)
