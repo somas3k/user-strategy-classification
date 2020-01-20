@@ -2,7 +2,7 @@ from typing import Sequence
 
 
 class Tweet:
-    def __init__(self, content, publish_date, region, language, following, followers, updates, post_type, retweet):
+    def __init__(self, content, publish_date, region, language, following, followers, updates, post_type, retweet, urls):
         self.content = content
         self.publish_date = publish_date
         self.region = region
@@ -12,6 +12,7 @@ class Tweet:
         self.updates = updates
         self.post_type = post_type
         self.retweet = retweet
+        self.urls = urls
 
 
 class UserStrategyData:

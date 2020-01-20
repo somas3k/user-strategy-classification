@@ -11,12 +11,21 @@ from spade.template import Template
 from user_strategy_data import Tweet, UserStrategyData
 
 
+def get_urls(row):
+    urls = []
+    for i in range(3):
+        url = row.get("tco{}_step1".format(i+1))
+        if url != "":
+            urls.append(url)
+    return urls
+
+
 def translate_tweets(tweets: list) -> Sequence[Tweet]:
     to_return = []
     for row in tweets:
         to_return.append(Tweet(row.get('content'), row.get('publish_date'), row.get('region'), row.get('language'),
                                row.get('following'), row.get('followers'), row.get('updates'), row.get('post_type'),
-                               row.get('retweet')))
+                               row.get('retweet'), get_urls(row)))
     return to_return
 
 
@@ -41,6 +50,7 @@ def load_data() -> Sequence[UserStrategyData]:
 
 names_to_addresses = {
     "sentiment_agent": "sentiment@localhost",
+    "averageurls_agent": "averageurls@localhost",
 }
 
 
@@ -62,8 +72,9 @@ class DataLoaderAndBroadcasterAgent(Agent):
 
             for us_data in data_list:
                 print("[DataLoaderAndBroadcasterAgent] sending data of user {}".format(us_data.user_id))
-                await self.send(self.get_message("sentiment_agent", jsonpickle.encode(us_data)))
-                # await self.send(self.get_message("xd", us_data))
+                json_with_data = jsonpickle.encode(us_data)
+                await self.send(self.get_message("sentiment_agent", json_with_data))
+                await self.send(self.get_message("averageurls_agent", json_with_data))
                 result = await self.receive(timeout=300)
                 if result:
                     print(result.body)
