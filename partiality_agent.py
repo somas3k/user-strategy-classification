@@ -19,7 +19,14 @@ right_keywords = [
     'republican',
     'conformist',
     'monarchy',
-    'private'
+    'private',
+    'undocumented immigrant',
+    'illegal immigrant',
+    'all lives matter',
+    'pro-life',
+    'muslims',
+    'extremists',
+    'islamist'
 ]
 
 left_keywords = [
@@ -32,7 +39,14 @@ left_keywords = [
     'public',
     'benefits',
     'minority',
-    'minorities'
+    'minorities',
+    'BLM',
+    'black lives matter',
+    'white privilege',
+    'racism',
+    'pro-choice',
+    'feminist'
+
 ]
 
 
