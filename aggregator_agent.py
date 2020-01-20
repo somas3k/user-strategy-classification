@@ -10,7 +10,7 @@ class AggregatorAgent(Agent):
     class AggregateResultsFromAnalysisAgents(CyclicBehaviour):
         async def run(self):
             print("Aggregator agent running")
-            number_of_agents = 2
+            number_of_agents = 3
             i = 0
             analyze_results = []
             user = None

@@ -51,6 +51,7 @@ def load_data() -> Sequence[UserStrategyData]:
 names_to_addresses = {
     "sentiment_agent": "sentiment@localhost",
     "averageurls_agent": "averageurls@localhost",
+    "averagehashtags_agent": "averagehashtags@localhost",
 }
 
 
@@ -73,8 +74,8 @@ class DataLoaderAndBroadcasterAgent(Agent):
             for us_data in data_list:
                 print("[DataLoaderAndBroadcasterAgent] sending data of user {}".format(us_data.user_id))
                 json_with_data = jsonpickle.encode(us_data)
-                await self.send(self.get_message("sentiment_agent", json_with_data))
-                await self.send(self.get_message("averageurls_agent", json_with_data))
+                for agent_name in names_to_addresses.keys():
+                    await self.send(self.get_message(agent_name, json_with_data))
                 result = await self.receive(timeout=300)
                 if result:
                     print(result.body)
