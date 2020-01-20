@@ -4,6 +4,7 @@ from spade.behaviour import CyclicBehaviour
 from spade.message import Message
 from spade.template import Template
 import re
+from nltk.util import ngrams
 
 from user_strategy_data import UserStrategyData
 
@@ -23,18 +24,26 @@ right_keywords = [
 
 left_keywords = [
     'lgbt',
+    'lgbtq',
     'equality',
     'homosexual',
     'gay',
     'lesbian',
     'public',
-    'benefits'
-
+    'benefits',
+    'minority',
+    'minorities'
 ]
 
 
-def calculate_partiality(data, right_keywords):
-    pass
+def calculate_partiality(data, keywords):
+    for tweet in data.tweets:
+
+        s = tweet.content.lower()
+        s = re.sub(r'[^a-zA-Z0-9\s]', ' ', s)
+        tokens = [token for token in s.split(" ") if token != ""]
+        one_gram_tokens = list(ngrams(tokens, 1))
+        two_gram_tokens = list(ngrams(tokens, 2))
 
 
 def analyze_data(data: UserStrategyData):

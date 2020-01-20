@@ -4,3 +4,4 @@ spade
 nltk
 monkeylearn
 jsonpickle
+textblob

@@ -4,7 +4,6 @@ import numpy as np
 from textblob import TextBlob
 
 
-
 def calculate_sentiment(data: UserStrategyData):
     result = []
 
@@ -16,5 +15,3 @@ def calculate_sentiment(data: UserStrategyData):
     result = np.asarray(result)
     analyze_result = {'polarity': list(result[:, 0]), 'subjectivity': list(result[:, 1])}
     return analyze_result
-
-
