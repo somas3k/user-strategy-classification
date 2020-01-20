@@ -1,38 +1,27 @@
-import csv
-import json
+import random
 
-from monkeylearn import MonkeyLearn
-import pandas as pd
 import numpy as np
+from monkeylearn import MonkeyLearn
 
-
-
-def calculate_sentiment(data):
-    ml = MonkeyLearn('44f4b8a34bb91a70efb251025276838d7742795a')
-    model_id = 'cl_pi3C7JiL'
-
-    data = pd.read_json(data)
-    result = []
-
-    for i in range(0, data.shape[0]):
-        res = extract_confidence(ml.classifiers.classify(model_id, [data['content'].values[i]]))
-        result.append(np.asarray(res))
-
-    result = np.asarray(result)
-    data['tag'] = result[:, 0]
-    data['confidence'] = result[:, 1]
-    return data.to_json(orient='records')
-
-
+from user_strategy_data import UserStrategyData
 
 
 def extract_confidence(results):
     res = results.body[0]['classifications'][0]
-    return [res['tag_name'],res['confidence']]
+    return [res['tag_name'], res['confidence']]
 
 
+def calculate_sentiment(data: UserStrategyData):
+    ml = MonkeyLearn('5f0746e7eee9ff88a4135fc126df9cdc17dd54c1')
+    model_id = 'cl_pi3C7JiL'
 
-def example_usage(file='./data/filtered_2.csv'):
-    df = pd.read_csv(file)
-    json_data=df.to_json(orient='records')
-    calculate_sentiment(json_data)
+    results = []
+
+    for i, tweet in enumerate(random.choices(data.tweets, k=1)):
+        print("Calculating sentiment for tweet {} of {}".format(i + 1, 1))
+        res = extract_confidence(ml.classifiers.classify(model_id, [tweet.content]))
+        results.append(np.asarray(res))
+
+    result = np.asarray(results)
+    analyze_result = {'tag': list(result[:, 0]), 'confidence': list(result[:, 1])}
+    return analyze_result

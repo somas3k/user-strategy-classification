@@ -21,6 +21,7 @@ def retrieve_and_stem(tweet_list):
 def calculate_term_idf(term, bags_of_words):
     return math.log(1.0 * len(bags_of_words) / bags_of_words[term])
 
+
 def calculate_idf(bags_of_words, terms):
     idf_holder = {}
     for term in terms:
@@ -28,6 +29,7 @@ def calculate_idf(bags_of_words, terms):
     for word in bags_of_words.keys():
         bags_of_words[word] *= 1.0 * idf_holder[word]
     return bags_of_words
+
 
 def save_dictionary(dictionary, filename):
     with open("results/" + filename, 'wb') as file:
@@ -40,7 +42,7 @@ def main():
     nickname_tweets = dict()
     for i in range(1, file_amount):
         with open("data/filtered_" + str(i) + ".csv", encoding="utf8") as file:
-            ## wczytuje każdy wiersz z csv jako oddzielny słownik słownik
+            # wczytuje każdy wiersz z csv jako oddzielny słownik
             csv_reader = csv.DictReader(file)
             for row in csv_reader:
                 if row.get('author') in nickname_tweets.keys():
