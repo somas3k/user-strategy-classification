@@ -15,7 +15,7 @@ def get_user_followers(user_data: UserStrategyData):
     return {
         "user_id": user_data.user_id,
         "label": user_data.label,
-        "tweet_size": tweet_size
+        "average_tweet_size": tweet_size
     }
 
 
