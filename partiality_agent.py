@@ -1,3 +1,5 @@
+import itertools
+
 import jsonpickle
 from spade.agent import Agent
 from spade.behaviour import CyclicBehaviour
@@ -51,20 +53,26 @@ left_keywords = [
 
 
 def calculate_partiality(data, keywords):
+    counter = 0
     for tweet in data.tweets:
-
         s = tweet.content.lower()
         s = re.sub(r'[^a-zA-Z0-9\s]', ' ', s)
         tokens = [token for token in s.split(" ") if token != ""]
-        one_gram_tokens = list(ngrams(tokens, 1))
-        two_gram_tokens = list(ngrams(tokens, 2))
+        ngrams_tokens = [list(ngrams(tokens, 1)), list(ngrams(tokens, 2)), list(ngrams(tokens, 3))]
+        merged = list(itertools.chain.from_iterable(ngrams_tokens))
+
+        for token in merged:
+            if token in keywords:
+                counter += 1
+    return counter / len(data.tweets)
 
 
 def analyze_data(data: UserStrategyData):
     return {
         "right_partiality": calculate_partiality(data, right_keywords),
         "left_partiality": calculate_partiality(data, left_keywords),
-        "user_id": data.user_id
+        "user_id": data.user_id,
+        "label": data.label
     }
 
 

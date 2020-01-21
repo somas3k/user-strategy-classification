@@ -11,7 +11,8 @@ from user_strategy_data import UserStrategyData
 def analyze_data(data: UserStrategyData):
     return {
         "sentiment_analysis": calculate_sentiment(data),
-        "user_id": data.user_id
+        "user_id": data.user_id,
+        "label": data.label
     }
 
 

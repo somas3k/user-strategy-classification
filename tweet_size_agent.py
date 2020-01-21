@@ -1,10 +1,11 @@
 import jsonpickle
-from datetime import datetime
 from spade.agent import Agent
-from spade.template import Template
-from spade.behaviour import OneShotBehaviour, CyclicBehaviour
+from spade.behaviour import CyclicBehaviour
 from spade.message import Message
+from spade.template import Template
+
 from user_strategy_data import UserStrategyData
+
 
 def get_user_followers(user_data: UserStrategyData):
     tweet_size = 0.0
@@ -13,18 +14,20 @@ def get_user_followers(user_data: UserStrategyData):
     tweet_size /= len(user_data.tweets)
     return {
         "user_id": user_data.user_id,
+        "label": user_data.label,
         "tweet_size": tweet_size
     }
 
+
 class UserTweetSizeAnalysisAgent(Agent):
-    class AnalyzeData(OneShotBehaviour):
+    class AnalyzeData(CyclicBehaviour):
         async def run(self):
             user_data_encoded = await self.receive(timeout=10)
             if user_data_encoded:
                 user_data = jsonpickle.decode(user_data_encoded.body)
                 print("[UserTweetSizeAnalysisAgent] received data to analysis for user: {}".format(user_data.user_id))
                 analysis = get_user_followers(user_data)
-                print("[UserTweetSizeAnalysisAgent] analysis completed for user: {}".format(analysis["user_id"]))                
+                print("[UserTweetSizeAnalysisAgent] analysis completed for user: {}".format(analysis["user_id"]))
                 msg = Message(to='aggregator@localhost')
                 msg.set_metadata('performative', 'inform')
                 msg.body = jsonpickle.encode(analysis)

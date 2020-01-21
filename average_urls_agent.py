@@ -18,7 +18,8 @@ def calculate_avg_urls(data):
 def analyze_data(data: UserStrategyData):
     return {
         "average_urls": calculate_avg_urls(data),
-        "user_id": data.user_id
+        "user_id": data.user_id,
+        "label": data.label
     }
 
 

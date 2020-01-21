@@ -23,7 +23,8 @@ def get_hashtags(tweet):
 def analyze_data(data: UserStrategyData):
     return {
         "average_hashtags": calculate_avg_hashtags(data),
-        "user_id": data.user_id
+        "user_id": data.user_id,
+        "label": data.label
     }
 
 

@@ -52,7 +52,11 @@ names_to_addresses = {
     "sentiment_agent": "sentiment@localhost",
     "averageurls_agent": "averageurls@localhost",
     "averagehashtags_agent": "averagehashtags@localhost",
+    "followers_agent": "followers@localhost",
+    "activity_agent": "activity@localhost",
+    "partiality": "partiality@localhost"
 }
+
 
 
 class DataLoaderAndBroadcasterAgent(Agent):
