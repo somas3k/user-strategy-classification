@@ -60,8 +60,9 @@ def calculate_partiality(data, keywords):
         tokens = [token for token in s.split(" ") if token != ""]
         ngrams_tokens = [list(ngrams(tokens, 1)), list(ngrams(tokens, 2)), list(ngrams(tokens, 3))]
         merged = list(itertools.chain.from_iterable(ngrams_tokens))
+        joined = [" ".join(token) for token in merged]
 
-        for token in merged:
+        for token in joined:
             if token in keywords:
                 counter += 1
     return counter / len(data.tweets)
