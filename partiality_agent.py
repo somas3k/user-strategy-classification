@@ -28,7 +28,38 @@ right_keywords = [
     'pro-life',
     'muslims',
     'extremists',
-    'islamist'
+    'islamist',
+    'authority',
+    'hierarchy',
+    'order',
+    'lower taxes',
+    'lower tax rates',
+    'less regulations',
+    'less regulation',
+    'reduced government',
+    'balanced budget',
+    'private healthcare',
+    'strong border',
+    'stronger boarder patrol',
+    'private education',
+    'private school'
+    'private schools',
+    'against abortion',
+    'free market',
+    'republican party',
+    'republican',
+    'republicans',
+    'constitutional party',
+    'constitutional',
+    'constitutionals',
+    'national review',
+    'fox news',
+    'wall street journal',
+    'washington times',
+    'capitalism',
+    'limited government',
+    'personal property rights',
+    'death penalty'
 ]
 
 left_keywords = [
@@ -47,8 +78,52 @@ left_keywords = [
     'white privilege',
     'racism',
     'pro-choice',
-    'feminist'
-
+    'feminist',
+    'fraternity',
+    'progress',
+    'refugees',
+    'liberal',
+    'higher taxes',
+    'higher tax rates',
+    'social',
+    'social programs',
+    'regulations',
+    'free healthcare',
+    'public education',
+    'public school',
+    'public schools',
+    'unpenalized abortion',
+    'stem cell',
+    'stem cell research',
+    'gay marriage',
+    'support gay marriage',
+    'allow gay marriage',
+    'anti-discrimination',
+    'anti-discrimination laws',
+    'against workplace discrimination',
+    'ban economic activity',
+    'democratic party',
+    'green',
+    'socialist',
+    'new york times',
+    'msnbc',
+    'washington post',
+    'cnn',
+    'social democracy',
+    'federalism',
+    'communism',
+    'collectivism',
+    'marxism',
+    'marx',
+    'engels',
+    'einstein',
+    'obama',
+    'hollande',
+    'economic equality',
+    'gun control',
+    'environmental protection',
+    'expanded educational opportunity',
+    'against death penalty'
 ]
 
 
@@ -57,7 +132,7 @@ def calculate_partiality(data, keywords):
     for tweet in data.tweets:
         s = tweet.content.lower()
         s = re.sub(r'[^a-zA-Z0-9\s]', ' ', s)
-        tokens = [token for token in s.split(" ") if token != ""]
+        tokens = [token.lower() for token in s.split(" ") if token != ""]
         ngrams_tokens = [list(ngrams(tokens, 1)), list(ngrams(tokens, 2)), list(ngrams(tokens, 3))]
         merged = list(itertools.chain.from_iterable(ngrams_tokens))
         joined = [" ".join(token) for token in merged]
