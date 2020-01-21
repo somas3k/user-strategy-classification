@@ -9,8 +9,10 @@ from user_strategy_data import UserStrategyData
 
 
 def analyze_data(data: UserStrategyData):
+    sentiment = calculate_sentiment(data)
     return {
-        "sentiment_analysis": calculate_sentiment(data),
+        "polarity": sentiment[0],
+        "subjectivity": sentiment[1],
         "user_id": data.user_id,
         "label": data.label
     }

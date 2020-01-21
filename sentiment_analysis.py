@@ -13,5 +13,5 @@ def calculate_sentiment(data: UserStrategyData):
     print("Calculated sentiment for {} tweets".format(len(data.tweets)))
 
     result = np.asarray(result)
-    analyze_result = {'polarity': np.mean(result[:, 0]), 'subjectivity': np.mean(result[:, 1])}
+    analyze_result = np.mean(result[:, 0]), np.mean(result[:, 1])
     return analyze_result
