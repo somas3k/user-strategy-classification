@@ -8,6 +8,7 @@ from data_loader_agent import DataLoaderAndBroadcasterAgent
 from follower_analysis_agent import UserFollowersAnalysisAgent
 from partiality_agent import PartialityAgent
 from sentiment_agent import SentimentAnalysisAgent
+from tweet_size_agent import UserTweetSizeAnalysisAgent
 
 if __name__ == "__main__":
     agents = [
@@ -18,6 +19,7 @@ if __name__ == "__main__":
         UserFollowersAnalysisAgent("followers@localhost", "followers"),
         UserActivityAnalysisAgent("activity@localhost", "activity"),
         PartialityAgent("partiality@localhost", "partiality"),
+        UserTweetSizeAnalysisAgent("tweetsize@localhost", "tweetsize"),
 
         DataLoaderAndBroadcasterAgent("dataloader@localhost", "dataloader")
     ]

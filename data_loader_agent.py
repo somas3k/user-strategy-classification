@@ -54,9 +54,9 @@ names_to_addresses = {
     "averagehashtags_agent": "averagehashtags@localhost",
     "followers_agent": "followers@localhost",
     "activity_agent": "activity@localhost",
-    "partiality": "partiality@localhost"
+    "partiality_agent": "partiality@localhost",
+    "tweetsize_agent": "tweetsize@localhost"
 }
-
 
 
 class DataLoaderAndBroadcasterAgent(Agent):
