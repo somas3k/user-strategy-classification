@@ -3,6 +3,7 @@ from spade.agent import Agent
 from spade.behaviour import OneShotBehaviour, CyclicBehaviour
 from spade.message import Message
 from spade.template import Template
+from datetime import datetime
 
 from user_strategy_data import UserStrategyData
 
@@ -13,11 +14,14 @@ def get_user_statistics(user_data: UserStrategyData):
     for tweet in user_data.tweets:
         retweets_no += int(tweet.retweet)
         tweets_no += 1 - int(tweet.retweet)
+    start_date = datetime.strptime(user_data.tweets[0].publish_date, '%m/%d/%Y %H:%M')
+    end_date = datetime.strptime(user_data.tweets[len(user_data.tweets) - 1].publish_date, '%m/%d/%Y %H:%M')
+    days = (end_date - start_date).days
     return {
         "user_id": user_data.user_id,
         "label": user_data.label,
-        "tweets": tweets_no,
-        "retweets": retweets_no,
+        "average_tweets_daily": tweets_no/days,
+        "average_retweets_daily": retweets_no/days,
     }
 
 
