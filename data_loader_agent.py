@@ -1,5 +1,7 @@
 import os
 import csv
+from collections import defaultdict
+
 import jsonpickle
 from typing import Sequence
 
@@ -7,14 +9,50 @@ from spade.agent import Agent
 from spade.behaviour import OneShotBehaviour
 from spade.message import Message
 from spade.template import Template
+from datetime import datetime
 
 from user_strategy_data import Tweet, UserStrategyData
+
+
+def extract_year(publish_date):
+    return publish_date.split(" ")[0].split("/")[-1]
+
+def extract_quarter(publish_date):
+    month = int(publish_date.split(" ")[0].split("/")[0])
+    return str((month+2) // 3)
+
+
+def divide_data(user_strategy_data_list):
+    sorted_by_years =[]
+    for user_strategy in user_strategy_data_list:
+        user_strategy.tweets.sort(key=lambda x: datetime.strptime(x.publish_date, '%m/%d/%Y %H:%M'))
+        user_by_years = defaultdict(list)
+        for tweet in user_strategy.tweets:
+            user_by_years[extract_year(tweet.publish_date)].append(tweet)
+
+        for tweets in user_by_years.values():
+            sorted_by_years.append(UserStrategyData(user_strategy.user_id, tweets, user_strategy.label))
+    return sorted_by_years
+
+def divide_data_quarterly(user_strategy_data_list):
+    sorted_by_years = []
+    for user_strategy in user_strategy_data_list:
+        user_strategy.tweets.sort(key=lambda x: datetime.strptime(x.publish_date, '%m/%d/%Y %H:%M'))
+        user_by_years = defaultdict(list)
+        for tweet in user_strategy.tweets:
+            user_by_years[extract_quarter(tweet.publish_date)].append(tweet)
+
+        for tweets in user_by_years.values():
+            sorted_by_years.append(UserStrategyData(user_strategy.user_id, tweets, user_strategy.label))
+
+
+    return sorted_by_years
 
 
 def get_urls(row):
     urls = []
     for i in range(3):
-        url = row.get("tco{}_step1".format(i+1))
+        url = row.get("tco{}_step1".format(i + 1))
         if url != "":
             urls.append(url)
     return urls
@@ -45,6 +83,7 @@ def load_data() -> Sequence[UserStrategyData]:
     for user, tweets in nickname_tweets.items():
         tweets_objects = translate_tweets(tweets)
         user_strategy_data_list.append(UserStrategyData(user, tweets_objects, tweets[0].get('account_category')))
+
     return user_strategy_data_list
 
 
@@ -60,7 +99,18 @@ names_to_addresses = {
 
 
 class DataLoaderAndBroadcasterAgent(Agent):
+
+    def __init__(self, jid, password, byDateDivision=False,quarterly=False):
+        super().__init__(jid, password)
+        self.byDateDivision = byDateDivision
+        self.quarterly =quarterly
+
     class LoadAndBroadcastBehav(OneShotBehaviour):
+
+        def __init__(self, byDateDivision=False,quarterly=False):
+            super().__init__()
+            self.byDateDivision = byDateDivision
+            self.quarterly=quarterly
 
         @staticmethod
         def get_message(agent, us_data: UserStrategyData):
@@ -73,6 +123,11 @@ class DataLoaderAndBroadcasterAgent(Agent):
         async def run(self):
             print("[DataLoaderAndBroadcasterAgent] loading data...")
             data_list = load_data()
+            if self.byDateDivision or self.quarterly:
+                data_list = divide_data(data_list)
+
+            if self.quarterly:
+                data_list=divide_data_quarterly(data_list)
             print("[DataLoaderAndBroadcasterAgent] data loaded")
 
             for us_data in data_list:
@@ -86,7 +141,7 @@ class DataLoaderAndBroadcasterAgent(Agent):
 
     async def setup(self):
         print("DataLoaderAndBroadcasterAgent started")
-        b = self.LoadAndBroadcastBehav()
+        b = self.LoadAndBroadcastBehav(self.byDateDivision,self.quarterly)
         template = Template()
         template.set_metadata("performative", "inform")
         self.add_behaviour(b, template)

@@ -21,7 +21,7 @@ def save_results(analyze_results):
     with open('results.csv', 'a', newline='') as results:
         field_names = [
             'user_id', 'tweets', 'retweets', 'average_hashtags', 'average_urls', 'average_followers',
-            'right_partiality', 'left_partiality', 'polarity', 'subjectivity', 'average_tweet_size', 'label'
+            'right_partiality', 'left_partiality', 'polarity', 'subjectivity', 'average_tweet_size', 'label','date'
         ]
         writer = csv.DictWriter(results, fieldnames=field_names)
         writer.writerow(flat_results)
@@ -36,12 +36,14 @@ class AggregatorAgent(Agent):
             analyze_results = []
             user = None
             label = None
+            date =None
             while i < number_of_agents:
                 msg = await self.receive(timeout=180)
                 if msg:
                     data = jsonpickle.decode(msg.body)
                     user = data["user_id"] if user is None else user
                     label = data["label"] if label is None else label
+                    date =data["date"] if date is None and "date" in data else date
                     print("Received message from {}".format(msg.sender))
                     analyze_results.append(data)
                 i += 1
@@ -57,7 +59,7 @@ class AggregatorAgent(Agent):
         with open('results.csv', 'w', newline='') as results:
             field_names = [
                 'user_id', 'tweets', 'retweets', 'average_hashtags', 'average_urls', 'average_followers',
-                'right_partiality', 'left_partiality', 'polarity', 'subjectivity', 'average_tweet_size', 'label'
+                'right_partiality', 'left_partiality', 'polarity', 'subjectivity', 'average_tweet_size', 'label','date'
             ]
             writer = csv.DictWriter(results, fieldnames=field_names)
             writer.writeheader()
