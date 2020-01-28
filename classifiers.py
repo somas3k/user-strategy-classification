@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 X = []
 Y = []
-field_names = ['tweets', 'retweets', 'average_hashtags', 'average_urls', 'average_followers', 'right_partiality',
+field_names = ['average_tweets_daily', 'average_retweets_daily', 'average_hashtags', 'average_urls', 'average_followers', 'right_partiality',
                'left_partiality', 'polarity', 'subjectivity', 'average_tweet_size']
 with open('results2.csv', newline='') as results:
     reader = csv.DictReader(results)
@@ -23,7 +23,7 @@ for i in range(int(len(X)*TEST_PERCENT_OF_SAMPLES)):
     Xs.append(X.pop(rand_index))
     Ys.append(Y.pop(rand_index))
 
-classifiers = {'decision tree': tree.DecisionTreeClassifier(), 'random forest': RandomForestClassifier(n_estimators=10)}
+classifiers = {'decision tree': tree.DecisionTreeClassifier(), 'random forest': RandomForestClassifier(n_estimators=20)}
 accuracy = {}
 for clf_name in classifiers.keys():
     clf = classifiers[clf_name].fit(X, Y)

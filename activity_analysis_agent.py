@@ -16,7 +16,7 @@ def get_user_statistics(user_data: UserStrategyData):
         tweets_no += 1 - int(tweet.retweet)
     start_date = datetime.strptime(user_data.tweets[0].publish_date, '%m/%d/%Y %H:%M')
     end_date = datetime.strptime(user_data.tweets[len(user_data.tweets) - 1].publish_date, '%m/%d/%Y %H:%M')
-    days = (end_date - start_date).days
+    days = (end_date - start_date).days + 1
     return {
         "user_id": user_data.user_id,
         "label": user_data.label,
