@@ -20,8 +20,8 @@ def save_results(analyze_results):
     flat_results = flatten_list_to_dict(analyze_results)
     with open('results.csv', 'a', newline='') as results:
         field_names = [
-            'user_id', 'tweets', 'retweets', 'average_hashtags', 'average_urls', 'average_followers',
-            'right_partiality', 'left_partiality', 'polarity', 'subjectivity', 'average_tweet_size', 'label','date'
+            'user_id', 'average_tweets_daily', 'average_retweets_daily', 'average_hashtags', 'average_urls', 'average_followers',
+            'right_partiality', 'left_partiality', 'polarity', 'subjectivity', 'average_tweet_size', 'label', 'date'
         ]
         writer = csv.DictWriter(results, fieldnames=field_names)
         writer.writerow(flat_results)

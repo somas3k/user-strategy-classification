@@ -8,7 +8,7 @@ X = []
 Y = []
 field_names = ['average_tweets_daily', 'average_retweets_daily', 'average_hashtags', 'average_urls', 'average_followers', 'right_partiality',
                'left_partiality', 'polarity', 'subjectivity', 'average_tweet_size']
-with open('results2.csv', newline='') as results:
+with open('results.csv', newline='') as results:
     reader = csv.DictReader(results)
     
     for row in reader:

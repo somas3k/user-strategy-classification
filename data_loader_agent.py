@@ -17,6 +17,7 @@ from user_strategy_data import Tweet, UserStrategyData
 def extract_year(publish_date):
     return publish_date.split(" ")[0].split("/")[-1]
 
+
 def extract_quarter(publish_date):
     month = int(publish_date.split(" ")[0].split("/")[0])
     return str((month+2) // 3)
@@ -130,8 +131,8 @@ class DataLoaderAndBroadcasterAgent(Agent):
                 data_list=divide_data_quarterly(data_list)
             print("[DataLoaderAndBroadcasterAgent] data loaded")
 
-            for us_data in data_list:
-                print("[DataLoaderAndBroadcasterAgent] sending data of user {}".format(us_data.user_id))
+            for id, us_data in enumerate(data_list):
+                print("[DataLoaderAndBroadcasterAgent] sending data of user {} ({}/{})".format(us_data.user_id, id, len(data_list)))
                 json_with_data = jsonpickle.encode(us_data)
                 for agent_name in names_to_addresses.keys():
                     await self.send(self.get_message(agent_name, json_with_data))

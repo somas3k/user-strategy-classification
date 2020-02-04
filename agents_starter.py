@@ -21,7 +21,7 @@ if __name__ == "__main__":
         PartialityAgent("partiality@localhost", "partiality"),
         UserTweetSizeAnalysisAgent("tweetsize@localhost", "tweetsize"),
 
-        DataLoaderAndBroadcasterAgent("dataloader@localhost", "dataloader",byDateDivision=True,quarterly=False)
+        DataLoaderAndBroadcasterAgent("dataloader@localhost", "dataloader", byDateDivision=False, quarterly=False)
     ]
     for agent in agents:
         future = agent.start()

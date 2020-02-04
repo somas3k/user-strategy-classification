@@ -1,10 +1,11 @@
+from datetime import datetime
 from typing import Sequence
 
 
 class Tweet:
-    def __init__(self, content, publish_date, region, language, following, followers, updates, post_type, retweet, urls):
+    def __init__(self, content, publish_date: str, region, language, following, followers, updates, post_type, retweet, urls):
         self.content = content
-        self.publish_date = publish_date
+        self.publish_date = datetime.strptime(publish_date.split(' ')[0], '%m/%d/%Y')
         self.region = region
         self.language = language
         self.following = following
