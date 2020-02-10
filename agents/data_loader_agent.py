@@ -69,7 +69,7 @@ def translate_tweets(tweets: list) -> Sequence[Tweet]:
 
 
 def load_data() -> Sequence[UserStrategyData]:
-    file_amount = len(os.listdir("data/")) - 1
+    file_amount = len(os.listdir("./data")) - 1
     nickname_tweets = dict()
     for i in range(1, file_amount):
         with open("data/filtered_" + str(i) + ".csv", encoding="utf8") as file:

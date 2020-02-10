@@ -18,7 +18,7 @@ def flatten_list_to_dict(analysis_results):
 
 def save_results(analyze_results):
     flat_results = flatten_list_to_dict(analyze_results)
-    with open('results.csv', 'a', newline='') as results:
+    with open('../results.csv', 'a', newline='') as results:
         field_names = [
             'user_id', 'average_tweets_daily', 'average_retweets_daily', 'average_hashtags', 'average_urls', 'average_followers',
             'right_partiality', 'left_partiality', 'polarity', 'subjectivity', 'average_tweet_size', 'label', 'date'
@@ -56,7 +56,7 @@ class AggregatorAgent(Agent):
 
     async def setup(self):
         print("AggregatorAgent started")
-        with open('results.csv', 'w', newline='') as results:
+        with open('../results.csv', 'w', newline='') as results:
             field_names = [
                 'user_id', 'tweets', 'retweets', 'average_hashtags', 'average_urls', 'average_followers',
                 'right_partiality', 'left_partiality', 'polarity', 'subjectivity', 'average_tweet_size', 'label','date'

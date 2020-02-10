@@ -38,7 +38,7 @@ def save_dictionary(dictionary, filename):
 
 def main():
     # change here to test other values
-    file_amount = len(os.listdir("data/")) - 1
+    file_amount = len(os.listdir("../data/")) - 1
     nickname_tweets = dict()
     for i in range(1, file_amount):
         with open("data/filtered_" + str(i) + ".csv", encoding="utf8") as file:

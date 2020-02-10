@@ -15,3 +15,13 @@ def calculate_sentiment(data: UserStrategyData):
     result = np.asarray(result)
     analyze_result = np.mean(result[:, 0]), np.mean(result[:, 1])
     return analyze_result
+
+
+def analyze_data(data: UserStrategyData):
+    sentiment = calculate_sentiment(data)
+    return {
+        "polarity": sentiment[0],
+        "subjectivity": sentiment[1],
+        "user_id": data.user_id,
+        "label": data.label
+    }
